@@ -18,6 +18,7 @@ func KeycloakProvider() *schema.Provider {
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"keycloak_realm":                                           resourceKeycloakRealm(),
+			"keycloak_realm_events":                                    resourceKeycloakRealmEvents(),
 			"keycloak_required_action":                                 resourceKeycloakRequiredAction(),
 			"keycloak_group":                                           resourceKeycloakGroup(),
 			"keycloak_group_memberships":                               resourceKeycloakGroupMemberships(),
@@ -103,7 +104,7 @@ func KeycloakProvider() *schema.Provider {
 				Optional:    true,
 				Type:        schema.TypeInt,
 				Description: "Timeout (in seconds) of the Keycloak client",
-				Default:     5,
+				DefaultFunc: schema.EnvDefaultFunc("KEYCLOAK_CLIENT_TIMEOUT", 5),
 			},
 		},
 		ConfigureFunc: configureKeycloakProvider,
